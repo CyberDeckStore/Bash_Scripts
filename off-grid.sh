@@ -6,6 +6,47 @@
 # - KiwiX Server (startup script for ext. HDD)
 # - FreeTAK Server
 
+############################################################
+# Help                                                     #
+############################################################
+Help()
+{
+   # Display Help
+   echo "Add description of the script functions here."
+   echo
+   echo "Syntax: scriptTemplate [-d|s|h]"
+   echo "options:"
+   echo "d     External drive filepath, i.e. '/usr/media/Off Grid'."
+   echo "s     Add website to multi-domain setup." 
+   echo "h     Print this Help."
+   echo
+}
+
+############################################################
+############################################################
+# Main program                                             #
+############################################################
+############################################################
+
+# Program variables
+HardDrive="/usr/media/Off Grid"
+WebSite="www.file.store"
+
+############################################################
+# Process the input options. Add options as needed.        #
+############################################################
+# Grab input options
+while getopts ":h" option; do
+   case $option in
+      h) # display Help
+         Help
+         exit;;
+     \?) # Invalid option
+         echo "Error: Invalid option"
+         exit;;
+   esac
+done
+
 echo -e "\e[93m   _____      _               _____            _       _____ _                 \e[0m";
 echo -e "\e[93m  / ____|    | |             |  __ \          | |     / ____| |                \e[0m";
 echo -e "\e[93m | |    _   _| |__   ___ _ __| |  | | ___  ___| | __ | (___ | |_ ___  _ __ ___ \e[0m";
@@ -46,5 +87,7 @@ echo -e "\e[91m _|    _|    _|        _|                  _|    _|  _|        _|
 echo -e "\e[91m   _|_|      _|        _|                    _|_|_|  _|        _|    _|_|_|  \e[0m";
 echo -e "\e[91m                                                                             \e[0m";
 echo "                                                                             ";
-
+sleep 2
+echo "This script will assist with installing server-side software on your CyberDeck."
+echo "Please follow the prompts to customize your setup."
 
