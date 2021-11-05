@@ -125,6 +125,7 @@ while getopts ":hxsS" option; do
 done
 
 clear
+sleep 1
 echo " "
 echo -e "\e[93m   _____      _               _____            _       _____ _                 \e[0m";
 echo -e "\e[93m  / ____|    | |             |  __ \          | |     / ____| |                \e[0m";
@@ -135,7 +136,7 @@ echo -e "\e[93m  \_____\__, |_.__/ \___|_|  |_____/ \___|\___|_|\_\ |_____/ \__\
 echo -e "\e[93m         __/ |                                                                 \e[0m";
 echo -e "\e[93m        |___/                                                                  \e[0m";
 echo " "                                                                                                      
-sleep 1
+sleep 2
 clear
 echo " "
 echo -e "\e[34m_   _ ____ _  _ ____ \e[0m";
@@ -155,7 +156,7 @@ echo -e "\e[34m|__] |__/ |___ [__  |___ |\ |  |  [__  \e[0m";
 echo -e "\e[34m|    |  \ |___ ___] |___ | \|  |  ___] \e[0m";
 echo -e "\e[34m                                       \e[0m";
 echo " "                                                                                                 
-sleep 1
+sleep 2
 clear
 echo " " 
 echo -e "\e[91m                                                                             \e[0m";
@@ -169,27 +170,29 @@ echo "                                                                          
 sleep 2
 echo "This script will assist with installing server-side software on your Off-Grid CyberDeck."
 echo "Please follow the prompts to customize your setup."
-sleep 1
+sleep 3
 clear
 
 #####
 # Linux Updates
 #####
 echo "Stage 1: Update Linux Distro and Dependencies."
+echo "Installing Linux Updates and Dependencies."
+sleep 2
 sudo apt update && sudo apt upgrade -y
 echo "Linux Update Complete."
-sleep 1
+sleep 2
 clear
 
 #####
 # Apache Setup
 #####
 echo "Stage 2: Apache Install and Configure."
-sleep 1
 echo "Installing Apache."
+sleep 2
 sudo apt install apache2 -y
 echo "Apache Install Complete."
-sleep 1
+sleep 2
 clear
 echo "Configuring Apache for Multi-Site Use."
 
@@ -230,22 +233,22 @@ sudo chmod o+x "$HardDrive"/www."$Website"
 sudo service apache2 restart
 
 echo "Multi-Site Configuration Complete."
-sleep 1
+sleep 2
 clear
 
 #####
 # KiwiX Setup
 #####
 echo "Stage 3: KiwiX Install and Configure."
-wget https://download.kiwix.org/release/kiwix-tools/kiwix-tools_linux-armhf.tar.gz
-sleep 1
+#wget https://download.kiwix.org/release/kiwix-tools/kiwix-tools_linux-armhf.tar.gz
 echo "...Script Still Under Development..."
+sleep 2
 clear
 
 #####
 # FreeTAK Setup
 #####
 echo "Stage 4: FreeTAK Install and Configure."
-sleep 1
 echo "...Script Still Under Development..."
+sleep 2
 clear
