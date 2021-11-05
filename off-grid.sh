@@ -1,6 +1,6 @@
 #!/bin/bash
 # CyberDeck Store - Hi-Tech LowLife
-# Off-Grid Bash Script v0.20
+# Off-Grid Bash Script v0.30
 # RoadMap:
 # - Apache Server (ext. HDD + Multi_Sites)
 # - KiwiX Server (startup script for ext. HDD)
@@ -305,6 +305,38 @@ clear
 # FreeTAK Setup
 #####
 echo "Stage 4: FreeTAK Install and Configure."
-echo "...Script Still Under Development..."
 sleep 2
 clear
+
+echo "Installing FreeTAKServer"
+sleep 2
+
+#Install FreeTAK UI via Python pip
+sudo python3 -m pip install FreeTAKServer[ui]
+
+echo "Install Complete"
+sleep 2
+clear
+
+echo "Configuring FreeTAKServer"
+sleep 2
+#Edit Config file to use Python 3.7 and not 3.8
+sudo sed -i 's/python3.8/python3.7/g' /usr/local/lib/python3.7/dist-packages/FreeTAKServer/controllers/configuration/MainConfig.py
+
+#Start Server and UI - NOT HEADLESS
+#sudo python3 -m FreeTAKServer.controllers.services.FTS
+#sudo FLASK_APP=/usr/local/lib/python3.7/dist-packages/FreeTAKServer-UI/run.py python3 /usr/local/lib/python3.7/dist-packages/FreeTAKServer-UI/run.py
+
+#Create Cron job to start FreeTAK server on reboot
+sudo crontab -e
+@reboot nohup sudo python3 -m FreeTAKServer.controllers.services.FTS &
+@reboot nohup sudo FLASK_APP=/usr/local/lib/python3.7/dist-packages/FreeTAKServer-UI/run.py python3 /usr/local/lib/python3.7/dist-packages/FreeTAKServer-UI/run.py &
+
+echo "Configuration Complete"
+sleep 2
+clear
+
+#Reboot Linux
+#sudo reboot
+echo "Please Reboot your CyberDeck for changes to take affect."
+exit;;
