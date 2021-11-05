@@ -86,7 +86,7 @@ clear
 ############################################################
 ZIM()
 {
-echo "Sub-Script Under Development
+echo "Sub-Script Under Development"
 }
 
 ############################################################
