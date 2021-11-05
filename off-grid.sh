@@ -124,6 +124,7 @@ while getopts ":hxsS" option; do
    esac
 done
 
+clear
 echo " "
 echo -e "\e[93m   _____      _               _____            _       _____ _                 \e[0m";
 echo -e "\e[93m  / ____|    | |             |  __ \          | |     / ____| |                \e[0m";
