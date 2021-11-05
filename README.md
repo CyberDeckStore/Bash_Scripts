@@ -11,4 +11,4 @@ Collection of Bash Scripts to help automate the setup of specific CyberDeck Stor
 
 1. Run the script.
 
-   1. example: "./off-grid.sh"
+   1. example: "./off-grid.sh -h"
