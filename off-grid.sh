@@ -13,13 +13,15 @@ Help()
 {
 # Display Help
 echo "This script is designed to help finish setting up your Off-Grid CyberDeck."
+echo "Input needed: Static IP, FilePath to EXT. HDD, Website Domain, FilePath to ZIM Wiki.
 echo
-echo "Syntax: scriptTemplate [-i|d|s|S|h]"
+echo "Syntax: scriptTemplate [-i|d|s|S|Z|h]"
 echo "options:"
 echo "i     Default IP Address, this should be the static IP address for your CyberDeck. ex: 192.168.8.243"   
 echo "d     External drive website filepath (parent directory), ex: '/media/USER/Off Grid/www'."
 echo "s     Include 1st site domain name during initial setup. ex: -s website1.com"
 echo "S     Sub-Script to add new website to multi-domain setup (use this option after initial setup). ex: -S website2.com" 
+echo "Z     Sub-Script to add new ZIM file to KiwiX (use this option after initial setup). ex: -Z /var/local/wikipedia_en_all_maxi_2020-11.zim"
 echo "h     Print this Help."
 echo
 }
@@ -80,6 +82,14 @@ clear
 }
 
 ############################################################
+# Add New ZIM Wiki                                         #
+############################################################
+ZIM()
+{
+echo "Sub-Script Under Development
+}
+
+############################################################
 ############################################################
 # Main program                                             #
 ############################################################
@@ -101,7 +111,7 @@ WebDir=$ADDR
 # Process the input options                                #
 ############################################################
 # Grab input options
-while getopts ":hxsS" option; do
+while getopts ":hidsSZ" option; do
    case $option in
       h) # display Help
          Help
@@ -114,6 +124,9 @@ while getopts ":hxsS" option; do
          Website=$OPTARG;;
       S) # add new multi-Site entry
          Site
+         exit;;         
+      Z) # add new ZIM wiki
+         ZIM
          exit;;
      \?) # Invalid option
          echo "Error: Invalid option"
