@@ -12,14 +12,74 @@
 Help()
 {
    # Display Help
-   echo "Add description of the script functions here."
+   echo "This script is designed to help finish setting up your Off-Grid CyberDeck."
    echo
-   echo "Syntax: scriptTemplate [-d|s|h]"
+   echo "Syntax: scriptTemplate [-i|d|s|S|h]"
    echo "options:"
-   echo "d     External drive filepath, i.e. '/usr/media/Off Grid'."
-   echo "s     Add website to multi-domain setup." 
+   echo "i     Default IP Address, this should be the static IP address for your CyberDeck. ex: 192.168.8.243"   
+   echo "d     External drive website filepath (parent directory), ex: '/media/USER/Off Grid/www'."
+   echo "s     Include 1st site domain name during initial setup. ex: -s website1.com"
+   echo "S     Add new website to multi-domain setup (use this option after initial setup). ex: -S website2.com" 
    echo "h     Print this Help."
    echo
+}
+
+############################################################
+# Add New Site                                                 #
+############################################################
+Site()
+{
+   #Add New Multi-Site Entry
+   echo "This script is designed to help finish setting up your Off-Grid CyberDeck."
+   echo "This option will add a new site to your Multi-Site Apache Setup."
+   echo
+   #Request Input / Parse Variables
+   echo "Please enter in your domain name, ex: website.com ."
+   read Website
+   #Parsing directory name from domain name
+   IFS='.' read -ra ADDR <<< "$Website"
+   WebDir=$ADDR
+   echo "Please enter in your Static IP."
+   read DefaultIP
+   echo "Please enter in your external harddrive website directory filepath, ex: /media/USER/Off Grid/www ."
+   read HardDrive
+   echo "Configuring New Site..."
+   
+   #Creating New Local Directory based on user input
+   sudo mkdir /var/www/"$Website"
+
+   #Creating Apache Configuration file
+   sudo cat > /etc/apache2/sites-available/"$Website".conf << EOF
+   <VirtualHost *:80>
+   ServerName "$Website"
+   ServerAlias www."$Website"
+   DocumentRoot /var/www/"$WebDir"
+   </VirtualHost>
+   EOF
+
+   #Append Hosts File
+   sudo echo '"$DefaultIP" www."$Website"' >> /etc/hosts/
+
+   #Disable Default Website
+   sudo a2dissite 000-default-conf
+
+   #Enable 1st Website
+   sudo a2ensite "$Website".conf
+
+   #NEED IF/ELSE CHECK FOR NO EXT HDD
+   #Ext. HDD and Setup Symlink/Permissions
+   sudo ln -s "'$HardDrive'/www.'$Website'" /var/www/"$WebDir"
+   sudo chmod o+x /media
+   sudo chmod o+x /media/"$USER"
+   sudo chmod o+x "$HardDrive"
+   sudo chmod o+x "$HardDrive"/www."$Website"
+
+   #Apache Restart
+   sudo service apache2 restart
+
+   echo "Multi-Site Configuration Complete."
+   sleep 1
+   clear
 }
 
 ############################################################
@@ -28,18 +88,35 @@ Help()
 ############################################################
 ############################################################
 
-# Program variables
-HardDrive="/usr/media/Off Grid"
-WebSite="www.file.store"
+############################################################
+# Program Variables                                        #
+############################################################
+
+DefaultIP="192.168.8.243"
+HardDrive="/media/'$USER'/Off Grid/www"
+Website="file.store"
+
+#Parsing directory name from domain name
+IFS='.' read -ra ADDR <<< "$Website"
+WebDir=$ADDR
 
 ############################################################
-# Process the input options. Add options as needed.        #
+# Process the input options                                #
 ############################################################
 # Grab input options
-while getopts ":h" option; do
+while getopts ":hxsS" option; do
    case $option in
       h) # display Help
          Help
+         exit;;     
+      i) # Enter Default IP
+         DefaultIP=$OPTARG;;
+      d) # Enter filepath for ext harddrive
+         HardDrive=$OPTARG;;
+      s) # Enter initial multi-Site entry
+         Website=$OPTARG;;
+      S) # add new multi-Site entry
+         Site
          exit;;
      \?) # Invalid option
          echo "Error: Invalid option"
@@ -47,6 +124,7 @@ while getopts ":h" option; do
    esac
 done
 
+echo " "
 echo -e "\e[93m   _____      _               _____            _       _____ _                 \e[0m";
 echo -e "\e[93m  / ____|    | |             |  __ \          | |     / ____| |                \e[0m";
 echo -e "\e[93m | |    _   _| |__   ___ _ __| |  | | ___  ___| | __ | (___ | |_ ___  _ __ ___ \e[0m";
@@ -57,6 +135,7 @@ echo -e "\e[93m         __/ |                                                   
 echo -e "\e[93m        |___/                                                                  \e[0m";
 echo " "                                                                                                      
 sleep 1
+clear
 echo " "
 echo -e "\e[34m_   _ ____ _  _ ____ \e[0m";
 echo -e "\e[34m \_/  |  | |  | |__/ \e[0m";
@@ -70,14 +149,13 @@ echo -e "\e[95m / __  / /_____/ / /  __/ /__/ / / /  / /___/ /_/ / |/ |/ / /___/
 echo -e "\e[95m/_/ /_/_/     /_/  \___/\___/_/ /_/  /_____/\____/|__/|__/_____/_/_/  \___/ \e[0m";
 echo -e "\e[95m                                                                            \e[0m";
 echo " "
-sleep 2
-echo " " 
 echo -e "\e[34m___  ____ ____ ____ ____ _  _ ___ ____ \e[0m";
 echo -e "\e[34m|__] |__/ |___ [__  |___ |\ |  |  [__  \e[0m";
 echo -e "\e[34m|    |  \ |___ ___] |___ | \|  |  ___] \e[0m";
 echo -e "\e[34m                                       \e[0m";
 echo " "                                                                                                 
 sleep 1
+clear
 echo " " 
 echo -e "\e[91m                                                                             \e[0m";
 echo -e "\e[91m   _|_|        _|_|      _|_|                _|_|_|            _|        _|  \e[0m";
@@ -88,6 +166,85 @@ echo -e "\e[91m   _|_|      _|        _|                    _|_|_|  _|        _|
 echo -e "\e[91m                                                                             \e[0m";
 echo "                                                                             ";
 sleep 2
-echo "This script will assist with installing server-side software on your CyberDeck."
+echo "This script will assist with installing server-side software on your Off-Grid CyberDeck."
 echo "Please follow the prompts to customize your setup."
+sleep 1
+clear
 
+#####
+# Linux Updates
+#####
+echo "Stage 1: Update Linux Distro and Dependencies."
+sudo apt update && sudo apt upgrade -y
+echo "Linux Update Complete."
+sleep 1
+clear
+
+#####
+# Apache Setup
+#####
+echo "Stage 2: Apache Install and Configure."
+sleep 1
+echo "Installing Apache."
+sudo apt install apache2 -y
+echo "Apache Install Complete."
+sleep 1
+clear
+echo "Configuring Apache for Multi-Site Use."
+
+#Change Dir permissions to allow Read/Write
+sudo chown $USER /var/www/
+sudo chown $USER /var/www/html
+
+#Creating 1st Directory based on user input
+sudo mkdir /var/www/"$Website"
+
+#Creating Local Apache Configuration file
+sudo cat > /etc/apache2/sites-available/"$Website".conf << EOF
+<VirtualHost *:80>
+ServerName "$Website"
+ServerAlias www."$Website"
+DocumentRoot /var/www/"$WebDir"
+</VirtualHost>
+EOF
+
+#Append Hosts File
+sudo echo '"$DefaultIP" www."$Website"' >> /etc/hosts/
+
+#Disable Default Website
+sudo a2dissite 000-default-conf
+
+#Enable 1st Website
+sudo a2ensite "$Website".conf
+
+#NEED IF/ELSE CHECK FOR NO EXT HDD
+#Ext. HDD and Setup Symlink/Permissions
+sudo ln -s "'$HardDrive'/www.'$Website'" /var/www/"$WebDir"
+sudo chmod o+x /media
+sudo chmod o+x /media/"$USER"
+sudo chmod o+x "$HardDrive"
+sudo chmod o+x "$HardDrive"/www."$Website"
+
+#Apache Restart
+sudo service apache2 restart
+
+echo "Multi-Site Configuration Complete."
+sleep 1
+clear
+
+#####
+# KiwiX Setup
+#####
+echo "Stage 3: KiwiX Install and Configure."
+wget https://download.kiwix.org/release/kiwix-tools/kiwix-tools_linux-armhf.tar.gz
+sleep 1
+echo "...Script Still Under Development..."
+clear
+
+#####
+# FreeTAK Setup
+#####
+echo "Stage 4: FreeTAK Install and Configure."
+sleep 1
+echo "...Script Still Under Development..."
+clear
