@@ -1,10 +1,10 @@
 #!/bin/bash
 # CyberDeck Store - Hi-Tech LowLife
-# Off-Grid Bash Script v0.01
+# Off-Grid Bash Script v0.20
 # RoadMap:
 # - Apache Server (ext. HDD + Multi_Sites)
 # - KiwiX Server (startup script for ext. HDD)
-# - FreeTAK Server
+# - FreeTAK Server (Install, Config, AutoService)
 
 ############################################################
 # Help                                                     #
@@ -19,13 +19,13 @@ echo "options:"
 echo "i     Default IP Address, this should be the static IP address for your CyberDeck. ex: 192.168.8.243"   
 echo "d     External drive website filepath (parent directory), ex: '/media/USER/Off Grid/www'."
 echo "s     Include 1st site domain name during initial setup. ex: -s website1.com"
-echo "S     Add new website to multi-domain setup (use this option after initial setup). ex: -S website2.com" 
+echo "S     Sub-Script to add new website to multi-domain setup (use this option after initial setup). ex: -S website2.com" 
 echo "h     Print this Help."
 echo
 }
 
 ############################################################
-# Add New Site                                                 #
+# Add New Site                                             #
 ############################################################
 Site()
 {
@@ -60,10 +60,7 @@ EOF
 #Append Hosts File
 sudo echo '"$DefaultIP" www."$Website"' >> /etc/hosts/
 
-#Disable Default Website
-sudo a2dissite 000-default-conf
-
-#Enable 1st Website
+#Enable New Website
 sudo a2ensite "$Website".conf
 
 #NEED IF/ELSE CHECK FOR NO EXT HDD
@@ -77,7 +74,7 @@ sudo chmod o+x "$HardDrive"/www."$Website"
 #Apache Restart
 sudo service apache2 restart
 
-echo "Multi-Site Configuration Complete."
+echo "Apache Multi-Site Configuration Complete."
 sleep 1
 clear
 }
@@ -127,6 +124,11 @@ done
 clear
 sleep 1
 echo " "
+echo " "
+echo " "
+echo " "
+echo " "
+echo " "
 echo -e "\e[93m   _____      _               _____            _       _____ _                 \e[0m";
 echo -e "\e[93m  / ____|    | |             |  __ \          | |     / ____| |                \e[0m";
 echo -e "\e[93m | |    _   _| |__   ___ _ __| |  | | ___  ___| | __ | (___ | |_ ___  _ __ ___ \e[0m";
@@ -158,7 +160,11 @@ echo -e "\e[34m                                       \e[0m";
 echo " "                                                                                                 
 sleep 2
 clear
-echo " " 
+echo " "
+echo " "
+echo " "
+echo " "
+echo " "
 echo -e "\e[91m                                                                             \e[0m";
 echo -e "\e[91m   _|_|        _|_|      _|_|                _|_|_|            _|        _|  \e[0m";
 echo -e "\e[91m _|    _|    _|        _|                  _|        _|  _|_|        _|_|_|  \e[0m";
@@ -166,7 +172,7 @@ echo -e "\e[91m _|    _|  _|_|_|_|  _|_|_|_|  _|_|_|_|_|  _|  _|_|  _|_|      _|
 echo -e "\e[91m _|    _|    _|        _|                  _|    _|  _|        _|  _|    _|  \e[0m";
 echo -e "\e[91m   _|_|      _|        _|                    _|_|_|  _|        _|    _|_|_|  \e[0m";
 echo -e "\e[91m                                                                             \e[0m";
-echo "                                                                             ";
+echo " ";
 sleep 2
 echo "This script will assist with installing server-side software on your Off-Grid CyberDeck."
 echo "Please follow the prompts to customize your setup."
@@ -232,7 +238,7 @@ sudo chmod o+x "$HardDrive"/www."$Website"
 #Apache Restart
 sudo service apache2 restart
 
-echo "Multi-Site Configuration Complete."
+echo "Apache Multi-Site Configuration Complete."
 sleep 2
 clear
 
@@ -240,9 +246,46 @@ clear
 # KiwiX Setup
 #####
 echo "Stage 3: KiwiX Install and Configure."
-#wget https://download.kiwix.org/release/kiwix-tools/kiwix-tools_linux-armhf.tar.gz
-echo "...Script Still Under Development..."
+echo "Downloading and Installing KiwiX."
+sleep2
+wget https://download.kiwix.org/release/kiwix-tools/kiwix-tools_linux-armhf.tar.gz
+tar -zxvf kiwix-tools_linux-armhf.tar.gz
+sudo rm kiwix-tools_linux-armhf.tar.gz
+sudo mv kiwix-tools_linux-armhf/* /usr/local/bin
+echo "KiwiX Install Complete."
 sleep 2
+clear
+echo "Configuring KiwiX Service."
+sleep 1
+
+#Grab Input - Filepath for ZIM wikis
+echo "Please enter in filepath to ZIM file. ex: '/var/local/wikipedia_en_all_maxi_2020-11.zim' ."
+read $ZIMFile
+
+#Creating KiwiX Service File
+sudo cat > /etc/systemd/system/kiwix.service << EOF
+[Unit]
+Description=Kiwix Service
+After=network.target
+
+[Service]
+Type=simple
+User=root
+Group=root
+ExecStart=/usr/local/bin/kiwix-serve "$ZIMFile" -p 8080
+Restart=always
+RestartSec=3
+
+[Install]
+WantedBy=multi-user.target
+EOF
+
+sudo systemctl enable kiwix
+sudo systemctl start kiwix
+
+echo "KiwiX Configuration Complete."
+echo "Navigate to test: http://localhost:8080/ ."
+sleep 3
 clear
 
 #####
