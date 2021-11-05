@@ -338,5 +338,6 @@ clear
 
 #Reboot Linux
 #sudo reboot
-echo "Please Reboot your CyberDeck for changes to take affect."
+echo "Please Run FreeTAKServer Config and Reboot your CyberDeck for changes to take affect."
+sudo python3 -m FreeTAKServer.controllers.services.FTS
 exit;;
