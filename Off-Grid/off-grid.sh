@@ -2,7 +2,7 @@
 # CyberDeck Store - Hi-Tech LowLife
 # Off-Grid Bash Script v0.30
 # RoadMap:
-# - Apache Server (ext. HDD + Multi_Sites)
+# - Apache Server (ext. HDD + Multi_Sites) - Automate permissions for viewing Ext. HDD file directory via browser
 # - KiwiX Server (startup script for ext. HDD)
 # - FreeTAK Server (Install, Config, AutoService)
 
