@@ -7,7 +7,11 @@ Script requires the following input:
 * Default IP (Static IP Address)
 * External Hard Drive - Filepath to Parent Directory of Websites
 * Website Domain Name
+
+
 Example: ./off-grid.sh -i 192.168.1.10 -d "/media/USER/Off Grid/www" -s cyberdeck.store
+
+
 
 Steps to Install and Run
 
