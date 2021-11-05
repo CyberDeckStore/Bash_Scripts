@@ -11,17 +11,17 @@
 ############################################################
 Help()
 {
-   # Display Help
-   echo "This script is designed to help finish setting up your Off-Grid CyberDeck."
-   echo
-   echo "Syntax: scriptTemplate [-i|d|s|S|h]"
-   echo "options:"
-   echo "i     Default IP Address, this should be the static IP address for your CyberDeck. ex: 192.168.8.243"   
-   echo "d     External drive website filepath (parent directory), ex: '/media/USER/Off Grid/www'."
-   echo "s     Include 1st site domain name during initial setup. ex: -s website1.com"
-   echo "S     Add new website to multi-domain setup (use this option after initial setup). ex: -S website2.com" 
-   echo "h     Print this Help."
-   echo
+# Display Help
+echo "This script is designed to help finish setting up your Off-Grid CyberDeck."
+echo
+echo "Syntax: scriptTemplate [-i|d|s|S|h]"
+echo "options:"
+echo "i     Default IP Address, this should be the static IP address for your CyberDeck. ex: 192.168.8.243"   
+echo "d     External drive website filepath (parent directory), ex: '/media/USER/Off Grid/www'."
+echo "s     Include 1st site domain name during initial setup. ex: -s website1.com"
+echo "S     Add new website to multi-domain setup (use this option after initial setup). ex: -S website2.com" 
+echo "h     Print this Help."
+echo
 }
 
 ############################################################
@@ -29,57 +29,57 @@ Help()
 ############################################################
 Site()
 {
-   #Add New Multi-Site Entry
-   echo "This script is designed to help finish setting up your Off-Grid CyberDeck."
-   echo "This option will add a new site to your Multi-Site Apache Setup."
-   echo
-   #Request Input / Parse Variables
-   echo "Please enter in your domain name, ex: website.com ."
-   read Website
-   #Parsing directory name from domain name
-   IFS='.' read -ra ADDR <<< "$Website"
-   WebDir=$ADDR
-   echo "Please enter in your Static IP."
-   read DefaultIP
-   echo "Please enter in your external harddrive website directory filepath, ex: /media/USER/Off Grid/www ."
-   read HardDrive
-   echo "Configuring New Site..."
-   
-   #Creating New Local Directory based on user input
-   sudo mkdir /var/www/"$Website"
+#Add New Multi-Site Entry
+echo "This script is designed to help finish setting up your Off-Grid CyberDeck."
+echo "This option will add a new site to your Multi-Site Apache Setup."
+echo
+#Request Input / Parse Variables
+echo "Please enter in your domain name, ex: website.com ."
+read Website
+#Parsing directory name from domain name
+IFS='.' read -ra ADDR <<< "$Website"
+WebDir=$ADDR
+echo "Please enter in your Static IP."
+read DefaultIP
+echo "Please enter in your external harddrive website directory filepath, ex: /media/USER/Off Grid/www ."
+read HardDrive
+echo "Configuring New Site..."
 
-   #Creating Apache Configuration file
-   sudo cat > /etc/apache2/sites-available/"$Website".conf << EOF
-   <VirtualHost *:80>
-   ServerName "$Website"
-   ServerAlias www."$Website"
-   DocumentRoot /var/www/"$WebDir"
-   </VirtualHost>
-   EOF
+#Creating New Local Directory based on user input
+sudo mkdir /var/www/"$Website"
 
-   #Append Hosts File
-   sudo echo '"$DefaultIP" www."$Website"' >> /etc/hosts/
+#Creating Apache Configuration file
+sudo cat > /etc/apache2/sites-available/"$Website".conf << EOF
+<VirtualHost *:80>
+ServerName "$Website"
+ServerAlias www."$Website"
+DocumentRoot /var/www/"$WebDir"
+</VirtualHost>
+EOF
 
-   #Disable Default Website
-   sudo a2dissite 000-default-conf
+#Append Hosts File
+sudo echo '"$DefaultIP" www."$Website"' >> /etc/hosts/
 
-   #Enable 1st Website
-   sudo a2ensite "$Website".conf
+#Disable Default Website
+sudo a2dissite 000-default-conf
 
-   #NEED IF/ELSE CHECK FOR NO EXT HDD
-   #Ext. HDD and Setup Symlink/Permissions
-   sudo ln -s "'$HardDrive'/www.'$Website'" /var/www/"$WebDir"
-   sudo chmod o+x /media
-   sudo chmod o+x /media/"$USER"
-   sudo chmod o+x "$HardDrive"
-   sudo chmod o+x "$HardDrive"/www."$Website"
+#Enable 1st Website
+sudo a2ensite "$Website".conf
 
-   #Apache Restart
-   sudo service apache2 restart
+#NEED IF/ELSE CHECK FOR NO EXT HDD
+#Ext. HDD and Setup Symlink/Permissions
+sudo ln -s "'$HardDrive'/www.'$Website'" /var/www/"$WebDir"
+sudo chmod o+x /media
+sudo chmod o+x /media/"$USER"
+sudo chmod o+x "$HardDrive"
+sudo chmod o+x "$HardDrive"/www."$Website"
 
-   echo "Multi-Site Configuration Complete."
-   sleep 1
-   clear
+#Apache Restart
+sudo service apache2 restart
+
+echo "Multi-Site Configuration Complete."
+sleep 1
+clear
 }
 
 ############################################################
