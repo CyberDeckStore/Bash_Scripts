@@ -13,17 +13,17 @@ Help()
 {
 # Display Help
 echo "This script is designed to help finish setting up your Off-Grid CyberDeck."
-echo "Input needed: Static IP, FilePath to EXT. HDD, Website Domain, FilePath to ZIM Wiki.
-echo
+echo "Input needed: Static IP, FilePath to EXT. HDD, Website Domain, FilePath to ZIM Wiki."
+echo " "
 echo "Syntax: scriptTemplate [-i|d|s|S|Z|h]"
 echo "options:"
 echo "i     Default IP Address, this should be the static IP address for your CyberDeck. ex: 192.168.8.243"   
-echo "d     External drive parent directory of website filepath, ex: \"/media/USER/Off Grid/web\"."
+echo "d     External drive parent directory of website filepath, ex: /media/USER/Off Grid/web."
 echo "s     Include 1st site domain name during initial setup. ex: -s website1.com"
 echo "S     Sub-Script to add new website to multi-domain setup, use this option after initial setup. ex: -S website2.com" 
-echo "Z     Sub-Script to add new ZIM file to KiwiX, use this option after initial setup. ex: -Z \"media/USER/Off Grid/wiki/wikipedia_en_all_maxi_2020-11.zim\"."
+echo "Z     Sub-Script to add new ZIM file to KiwiX, use this option after initial setup. ex: -Z media/USER/Off Grid/wiki/wikipedia_en_all_maxi_2020-11.zim."
 echo "h     Print this Help."
-echo
+echo " "
 }
 
 ############################################################
@@ -34,7 +34,7 @@ Site()
 #Add New Multi-Site Entry
 echo "This script is designed to help finish setting up your Off-Grid CyberDeck."
 echo "This option will add a new site to your Multi-Site Apache Setup."
-echo
+echo " "
 #Request Input / Parse Variables
 echo "Please enter in your domain name, ex: website.com ."
 read Website
@@ -48,30 +48,30 @@ read HardDrive
 echo "Configuring New Site..."
 
 #Creating New Local Directory based on user input
-sudo mkdir /var/www/"$Website"
+sudo mkdir /var/www/$Website
 
 #Creating Apache Configuration file
-sudo cat > /etc/apache2/sites-available/"$Website".conf << EOF
+sudo cat > /etc/apache2/sites-available/$Website.conf << EOF
 <VirtualHost *:80>
-ServerName "$Website"
-ServerAlias www."$Website"
-DocumentRoot /var/www/"$WebDir"
+ServerName $Website
+ServerAlias www.$Website
+DocumentRoot /var/www/$WebDir
 </VirtualHost>
 EOF
 
 #Append Hosts File
-sudo echo '"$DefaultIP" www."$Website"' >> /etc/hosts/
+sudo echo '$DefaultIP www.$Website' >> /etc/hosts/
 
 #Enable New Website
-sudo a2ensite "$Website".conf
+sudo a2ensite $Website.conf
 
 #NEED IF/ELSE CHECK FOR NO EXT HDD
 #Ext. HDD and Setup Symlink/Permissions
-sudo ln -s "'$HardDrive'/www.'$Website'" /var/www/"$WebDir"
+sudo ln -s "$HardDrive/www.$Website" /var/www/$WebDir
 sudo chmod o+x /media
-sudo chmod o+x /media/"$USER"
-sudo chmod o+x "$HardDrive"
-sudo chmod o+x "$HardDrive"/www."$Website"
+sudo chmod o+x /media/$USER
+sudo chmod o+x $HardDrive
+sudo chmod o+x $HardDrive/www.$Website
 
 #Apache Restart
 sudo service apache2 restart
@@ -100,11 +100,11 @@ echo "Sub-Script Under Development"
 ############################################################
 
 DefaultIP="192.168.8.243"
-HardDrive="/media/'$USER'/Off Grid/web"
+HardDrive="/media/$USER/Off Grid/web"
 Website="file.store"
 
 #Parsing directory name from domain name
-IFS='.' read -ra ADDR <<< "$Website"
+IFS='.' read -ra ADDR <<< $Website
 WebDir=$ADDR
 
 ############################################################
@@ -238,33 +238,33 @@ sudo chown $USER /var/www/
 sudo chown $USER /var/www/html
 
 #Creating 1st Directory based on user input
-sudo mkdir /var/www/"$Website"
+sudo mkdir /var/www/$Website
 
 #Creating Local Apache Configuration file
-sudo cat > /etc/apache2/sites-available/"$Website".conf << EOF
+sudo cat > /etc/apache2/sites-available/$Website.conf << EOF
 <VirtualHost *:80>
-ServerName "$Website"
-ServerAlias www."$Website"
-DocumentRoot /var/www/"$WebDir"
+ServerName $Website
+ServerAlias www.$Website
+DocumentRoot /var/www/$WebDir
 </VirtualHost>
 EOF
 
 #Append Hosts File
-sudo echo '"$DefaultIP" www."$Website"' >> /etc/hosts/
+sudo echo '$DefaultIP www.$Website' >> /etc/hosts/
 
 #Disable Default Website
 sudo a2dissite 000-default-conf
 
 #Enable 1st Website
-sudo a2ensite "$Website".conf
+sudo a2ensite $Website.conf
 
 #NEED IF/ELSE CHECK FOR NO EXT HDD
 #Ext. HDD and Setup Symlink/Permissions
-sudo ln -s "'$HardDrive'/www.'$Website'" /var/www/"$WebDir"
+sudo ln -s "$HardDrive/www.$Website" /var/www/$WebDir
 sudo chmod o+x /media
-sudo chmod o+x /media/"$USER"
-sudo chmod o+x "$HardDrive"
-sudo chmod o+x "$HardDrive"/www."$Website"
+sudo chmod o+x /media/$USER
+sudo chmod o+x $HardDrive
+sudo chmod o+x "HardDrive/www.$Website
 
 #Apache Restart
 sudo service apache2 restart
@@ -304,7 +304,7 @@ After=network.target
 Type=simple
 User=root
 Group=root
-ExecStart=/usr/local/bin/kiwix-serve "$ZIMFile" -p 8080
+ExecStart=/usr/local/bin/kiwix-serve $ZIMFile -p 8080
 Restart=always
 RestartSec=3
 
