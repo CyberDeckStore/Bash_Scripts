@@ -264,7 +264,7 @@ sudo ln -s "$HardDrive/www.$Website" /var/www/$WebDir
 sudo chmod o+x /media
 sudo chmod o+x /media/$USER
 sudo chmod o+x $HardDrive
-sudo chmod o+x "HardDrive/www.$Website
+sudo chmod o+x $HardDrive/www.$Website
 
 #Apache Restart
 sudo service apache2 restart
