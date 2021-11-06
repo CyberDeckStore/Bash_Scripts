@@ -364,4 +364,3 @@ echo "Please Run FreeTAKServer Config and Reboot your CyberDeck for changes to t
 sleep 1
 pause 'Press [Enter] key to continue...'
 sudo python3 -m FreeTAKServer.controllers.services.FTS
-exit;;
