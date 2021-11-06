@@ -65,7 +65,7 @@ DocumentRoot /var/www/"$WebDir"
 EOF
 
 #Append Hosts File
-sudo echo '$DefaultIP www.$Website' sudo tee /etc/hosts/
+sudo echo '$DefaultIP www.$Website' sudo tee /etc/hosts
 
 #Enable New Website
 sudo a2ensite "$Website".conf
