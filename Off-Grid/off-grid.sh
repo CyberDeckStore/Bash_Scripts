@@ -26,6 +26,16 @@ echo "h     Print this Help."
 echo " "
 }
 
+# Pause Function
+function pause(){
+   read -p "$*"
+}
+
+clear
+sleep 1
+
+cat << "EOF"
+
 ############################################################
 # Add New Site                                             #
 ############################################################
@@ -78,6 +88,7 @@ sudo service apache2 restart
 
 echo "Apache Multi-Site Configuration Complete."
 sleep 1
+pause 'Press [Enter] key to continue...'
 clear
 }
 
@@ -87,6 +98,9 @@ clear
 ZIM()
 {
 echo "Sub-Script Under Development"
+sleep 1
+pause 'Press [Enter] key to continue...'
+clear
 }
 
 ############################################################
@@ -134,15 +148,7 @@ while getopts ":hidsSZ" option; do
    esac
 done
 
-# Pause Function
-function pause(){
-   read -p "$*"
-}
 
-clear
-sleep 1
-
-cat << "EOF"
 
 
 
