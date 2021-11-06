@@ -142,8 +142,9 @@ function pause(){
 clear
 sleep 1
 
-cat << "EOF"
 \e[93m
+cat << "EOF"
+
 
 
    ____      _               ____            _      ____  _                 
@@ -154,20 +155,24 @@ cat << "EOF"
        |___/                                                                
 
 
-\e
+
 EOF
+\e
 sleep 2
 clear
-cat << "EOF"
 \e[34m
+cat << "EOF"
+
 
 _   _ ____ _  _ ____ 
  \_/  |  | |  | |__/ 
   |   |__| |__| |  \ 
                      
 
+EOF
 \e 
 \e[95m
+cat << "EOF"
 
     __  ___     ______          __       __                  __    _ ____   
    / / / (_)   /_  __/__  _____/ /_     / /   ____ _      __/ /   (_) __/__ 
@@ -176,20 +181,22 @@ _   _ ____ _  _ ____
 /_/ /_/_/     /_/  \___/\___/_/ /_/  /_____/\____/|__/|__/_____/_/_/  \___/ 
                                                                             
 
+EOF
 \e
 \e[34m
+cat << "EOF"
 
 ___  ____ ____ ____ ____ _  _ ___ ____ 
 |__] |__/ |___ [__  |___ |\ |  |  [__  
 |    |  \ |___ ___] |___ | \|  |  ___] 
                                        
 
-\e
 EOF
+\e
 sleep 2
 clear
-cat << "EOF"
-\e[91m                                                                             
+\e[91m       
+cat << "EOF"                                                                      
 
                                                                              
    _|_|        _|_|      _|_|                _|_|_|            _|        _|  
@@ -200,8 +207,8 @@ cat << "EOF"
                                                                              
                                                                              
 
-\e
 EOF
+\e
 sleep 2
 echo "This script will assist with installing server-side software on your Off-Grid CyberDeck."
 echo "Please follow the prompts to customize your setup."
