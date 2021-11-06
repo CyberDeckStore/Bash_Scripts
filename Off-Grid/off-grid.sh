@@ -18,10 +18,10 @@ echo
 echo "Syntax: scriptTemplate [-i|d|s|S|Z|h]"
 echo "options:"
 echo "i     Default IP Address, this should be the static IP address for your CyberDeck. ex: 192.168.8.243"   
-echo "d     External drive website filepath (parent directory), ex: '/media/USER/Off Grid/www'."
+echo "d     External drive website filepath (parent directory), ex: '/media/USER/Off Grid/web'."
 echo "s     Include 1st site domain name during initial setup. ex: -s website1.com"
 echo "S     Sub-Script to add new website to multi-domain setup (use this option after initial setup). ex: -S website2.com" 
-echo "Z     Sub-Script to add new ZIM file to KiwiX (use this option after initial setup). ex: -Z /var/local/wikipedia_en_all_maxi_2020-11.zim"
+echo "Z     Sub-Script to add new ZIM file to KiwiX (use this option after initial setup). ex: -Z 'media/USER/Off Grid/wiki/wikipedia_en_all_maxi_2020-11.zim'"
 echo "h     Print this Help."
 echo
 }
@@ -43,7 +43,7 @@ IFS='.' read -ra ADDR <<< "$Website"
 WebDir=$ADDR
 echo "Please enter in your Static IP."
 read DefaultIP
-echo "Please enter in your external harddrive website directory filepath, ex: /media/USER/Off Grid/www ."
+echo "Please enter in your external harddrive website parent directory filepath, ex: /media/USER/Off Grid/web ."
 read HardDrive
 echo "Configuring New Site..."
 
@@ -100,7 +100,7 @@ echo "Sub-Script Under Development"
 ############################################################
 
 DefaultIP="192.168.8.243"
-HardDrive="/media/'$USER'/Off Grid/www"
+HardDrive="/media/'$USER'/Off Grid/web"
 Website="file.store"
 
 #Parsing directory name from domain name
@@ -272,7 +272,7 @@ echo "Configuring KiwiX Service."
 sleep 1
 
 #Grab Input - Filepath for ZIM wikis
-echo "Please enter in filepath to ZIM file. ex: '/var/local/wikipedia_en_all_maxi_2020-11.zim' ."
+echo "Please enter in filepath to ZIM file. ex: '/media/USER/Off Grid/wiki/wikipedia_en_all_maxi_2020-11.zim' ."
 read $ZIMFile
 
 #Creating KiwiX Service File
