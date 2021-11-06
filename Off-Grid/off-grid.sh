@@ -31,11 +31,6 @@ function pause(){
    read -p "$*"
 }
 
-clear
-sleep 1
-
-cat << "EOF"
-
 ############################################################
 # Add New Site                                             #
 ############################################################
@@ -148,6 +143,10 @@ while getopts ":hidsSZ" option; do
    esac
 done
 
+clear
+sleep 1
+
+cat << "EOF"
 
 
 
