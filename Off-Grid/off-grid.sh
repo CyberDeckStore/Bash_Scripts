@@ -18,10 +18,10 @@ echo
 echo "Syntax: scriptTemplate [-i|d|s|S|Z|h]"
 echo "options:"
 echo "i     Default IP Address, this should be the static IP address for your CyberDeck. ex: 192.168.8.243"   
-echo "d     External drive website filepath (parent directory), ex: '/media/USER/Off Grid/web'."
+echo "d     External drive parent directory website filepath, ex: '/media/USER/Off Grid/web'."
 echo "s     Include 1st site domain name during initial setup. ex: -s website1.com"
-echo "S     Sub-Script to add new website to multi-domain setup (use this option after initial setup). ex: -S website2.com" 
-echo "Z     Sub-Script to add new ZIM file to KiwiX (use this option after initial setup). ex: -Z 'media/USER/Off Grid/wiki/wikipedia_en_all_maxi_2020-11.zim'"
+echo "S     Sub-Script to add new website to multi-domain setup, use this option after initial setup. ex: -S website2.com" 
+echo "Z     Sub-Script to add new ZIM file to KiwiX, use this option after initial setup. ex: -Z 'media/USER/Off Grid/wiki/wikipedia_en_all_maxi_2020-11.zim'"
 echo "h     Print this Help."
 echo
 }
