@@ -1,5 +1,5 @@
 # Off-Grid
-###!Still In Development! // Please Don't Use Script Until We Give the O.K. on our blog!
+### !Still In Development! // Please Don't Use Script Until We Give the O.K. on our blog!
 Bash Script designed to help automate deployment of Off-Grid CyberDeck running off Raspbian.
 
 Facilitates offline hosting for downloaded websites, file sharing via HTTP, Wiki reader and FreeTAKServer for offering map packages.
