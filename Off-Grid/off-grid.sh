@@ -42,41 +42,41 @@ echo "This option will add a new site to your Multi-Site Apache Setup."
 echo " "
 #Request Input / Parse Variables
 echo "Please enter in your domain name, ex: website.com ."
-read Website
+read -r Website
 #Parsing directory name from domain name
 IFS='.' read -ra ADDR <<< "$Website"
 WebDir=$ADDR
 echo "Please enter in your Static IP."
-read DefaultIP
+read -r DefaultIP
 echo "Please enter in your external harddrive website parent directory filepath, ex: /media/USER/Off Grid/web ."
-read HardDrive
+read -r HardDrive
 echo "Configuring New Site..."
 
 #Creating New Local Directory based on user input
-sudo mkdir /var/www/$Website
+sudo mkdir /var/www/"$Website"
 
 #Creating Apache Configuration file
-sudo cat > /etc/apache2/sites-available/$Website.conf << EOF
+sudo tee /etc/apache2/sites-available/"$Website".conf << EOF
 <VirtualHost *:80>
 ServerName $Website
 ServerAlias www.$Website
-DocumentRoot /var/www/$WebDir
+DocumentRoot /var/www/"$WebDir"
 </VirtualHost>
 EOF
 
 #Append Hosts File
-sudo echo '$DefaultIP www.$Website' >> /etc/hosts/
+sudo echo '$DefaultIP www.$Website' sudo tee /etc/hosts/
 
 #Enable New Website
 sudo a2ensite $Website.conf
 
 #NEED IF/ELSE CHECK FOR NO EXT HDD
 #Ext. HDD and Setup Symlink/Permissions
-sudo ln -s "$HardDrive/www.$Website" /var/www/$WebDir
+sudo ln -s "$HardDrive/www.$Website" /var/www/"$WebDir"
 sudo chmod o+x /media
-sudo chmod o+x /media/$USER
-sudo chmod o+x $HardDrive
-sudo chmod o+x $HardDrive/www.$Website
+sudo chmod o+x /media/"$USER"
+sudo chmod o+x "$HardDrive"
+sudo chmod o+x "$HardDrive"/www.$Website
 
 #Apache Restart
 sudo service apache2 restart
