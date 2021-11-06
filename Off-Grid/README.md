@@ -34,6 +34,8 @@ Example: ```./off-grid.sh -i 192.168.1.10 -d "/media/USER/Off Grid/www" -s cyber
 ## Example File Structure
 This is a basic overview of how the file structure is expected to be setup on the External Hard Drive.
 
+We used a M.2 NvME 1Tb drive connected via a USB 3.0 reader. I named our drive "Off Grid" as seen in the examples.
+
 Folders in root of drive:
 * web (Name folders after URL of downloaded site, ex: "www.survivorlibrary.com")
 * files (Folders here are offered as downloadable via HTTP)
