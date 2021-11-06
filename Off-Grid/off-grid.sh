@@ -134,6 +134,11 @@ while getopts ":hidsSZ" option; do
    esac
 done
 
+# Pause Function
+function pause(){
+   read -p "$*"
+}
+
 clear
 sleep 1
 echo " "
@@ -189,7 +194,8 @@ echo " ";
 sleep 2
 echo "This script will assist with installing server-side software on your Off-Grid CyberDeck."
 echo "Please follow the prompts to customize your setup."
-sleep 3
+sleep 1
+pause 'Press [Enter] key to continue...'
 clear
 
 #####
@@ -200,7 +206,8 @@ echo "Installing Linux Updates and Dependencies."
 sleep 2
 sudo apt update && sudo apt upgrade -y
 echo "Linux Update Complete."
-sleep 2
+sleep 1
+pause 'Press [Enter] key to continue...'
 clear
 
 #####
@@ -252,7 +259,8 @@ sudo chmod o+x "$HardDrive"/www."$Website"
 sudo service apache2 restart
 
 echo "Apache Multi-Site Configuration Complete."
-sleep 2
+sleep 1
+pause 'Press [Enter] key to continue...'
 clear
 
 #####
@@ -298,7 +306,8 @@ sudo systemctl start kiwix
 
 echo "KiwiX Configuration Complete."
 echo "Navigate to test: http://localhost:8080/ ."
-sleep 3
+sleep 1
+pause 'Press [Enter] key to continue...'
 clear
 
 #####
@@ -333,11 +342,15 @@ sudo crontab -e
 @reboot nohup sudo FLASK_APP=/usr/local/lib/python3.7/dist-packages/FreeTAKServer-UI/run.py python3 /usr/local/lib/python3.7/dist-packages/FreeTAKServer-UI/run.py &
 
 echo "Configuration Complete"
-sleep 2
+sleep 1
+echo "Navigate to test: http://localhost:5000/ ."
+pause 'Press [Enter] key to continue...'
 clear
 
 #Reboot Linux
 #sudo reboot
 echo "Please Run FreeTAKServer Config and Reboot your CyberDeck for changes to take affect."
+sleep 1
+pause 'Press [Enter] key to continue...'
 sudo python3 -m FreeTAKServer.controllers.services.FTS
 exit;;
